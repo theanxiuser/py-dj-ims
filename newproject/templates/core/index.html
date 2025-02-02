@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Wellcome to Django from HTML</h1>
+
+<h2>Contents:</h2>
+
+    <ol>
+        {% for content in contents %}
+            <li>
+                <a href="{% url 'core:detail' content.id %}">{{ content }}</a>
+            </li>
+        {% endfor %}
+    </ol>
+
+{% endblock %}

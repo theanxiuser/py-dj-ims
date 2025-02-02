@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>{{ content.title }}</h1>
+    <p>{{ content.description }}</p>
+
+    <a href="{% url 'core:index' %}">Back to index</a>
+
+{% endblock %}
