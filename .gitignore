@@ -1,0 +1,10 @@
+venv
+*/.idea
+*/__pycache__
+*/.pytest_cache
+*/.vscode
+*/.venv
+*/db.sqlite3
+*/.ipynb_checkpoints
+*/*/__pycache__
+*/*/*/__pycache__
