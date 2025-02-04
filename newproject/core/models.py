@@ -8,6 +8,7 @@ class Content(models.Model):
 
     class Meta:
         db_table = "content"
+        # ordering = ["-title"]
 
     def __str__(self):
         return self.title
