@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="container text-center mt-5">
+        <h1 class="display-4">Welcome to OCMS</h1>
+        <p class="lead">Manage your courses, take assessments, and track progress.</p>
+
+        {% if user.is_authenticated %}
+            <h3>Hello, {{ user.username }}!</h3>
+            {% if user.is_instructor %}
+                <p>You're logged in as an instructor.</p>
+            {% else %}
+                <p>You're logged in as a student.</p>
+            {% endif %}
+            <a href="{% url 'userauth:logout' %}" class="btn btn-danger">Logout</a>
+        {% else %}
+            <p><a href="{% url 'userauth:login' %}" class="btn btn-success">Login</a> or <a href="{% url 'userauth:register' %}" class="btn btn-warning">Register</a> to get started.</p>
+        {% endif %}
+    </div>
+{% endblock %}
