@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Delete Course
+{% endblock %}
+
+{% block content %}
+
+    <h1>Are you sure, You want to delete?</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes</button>
+    </form>
+<br>
+<a href="{% url 'course:course-detail' course.pk %}" class="btn btn-primary">No</a>
+
+{% endblock %}
