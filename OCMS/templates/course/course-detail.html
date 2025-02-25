@@ -12,16 +12,17 @@
     <p>{{ course.description }}</p>
 </div>
 
-<div>
     <p>Instructor: {{ course.instructor.username }}</p>
+
+{% if user.is_authenticated and user.is_instructor %}
     <p>Students:
         {% for student in course.students.all %}
             {{ student.username }},
         {% endfor %}
     </p>
-</div>
 
-<a href="{% url 'course:course-update' course.pk %}" class="btn btn-primary">Update</a>
-<a href="{% url 'course:course-delete' course.pk %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'course:course-update' course.pk %}" class="btn btn-primary">Update</a>
+    <a href="{% url 'course:course-delete' course.pk %}" class="btn btn-danger">Delete</a>
+{% endif %}
 
 {% endblock %}
