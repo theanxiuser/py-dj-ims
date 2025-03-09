@@ -6,6 +6,8 @@ from .views import (
     CourseDetailView,
     CourseUpdateView,
     CourseDeleteView,
+    MCQCreateView,
+    SolveMCQView
 )
 
 
@@ -16,4 +18,6 @@ urlpatterns = [
     path("<int:pk>/", CourseDetailView.as_view(), name="course-detail"),
     path("<int:pk>/update", CourseUpdateView.as_view(), name="course-update"),
     path("<int:pk>/delete", CourseDeleteView.as_view(), name="course-delete"),
+    path("create-mcq/<int:course_id>", MCQCreateView.as_view(), name="mcq-create"),
+    path("solve-mcq/<int:course_id>", SolveMCQView.as_view(), name="mcq-solve"),
 ]

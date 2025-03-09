@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Create MCQs{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2>Create MCQs for {{ course.title }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div id="mcq-container">
+            <div class="mcq mb-4 p-3 border rounded">
+                <h4>MCQ 1</h4>
+
+                <div class="mb-3">
+                    <label for="question_1" class="form-label">Question</label>
+                    <input type="text" id="question_1" name="question" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="option1_1" class="form-label">Option 1</label>
+                    <input type="text" id="option1_1" name="option_1" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="option2_1" class="form-label">Option 2</label>
+                    <input type="text" id="option2_1" name="option_2" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="option3_1" class="form-label">Option 3</label>
+                    <input type="text" id="option3_1" name="option_3" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="option4_1" class="form-label">Option 4</label>
+                    <input type="text" id="option4_1" name="option_4" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="correct_option_1" class="form-label">Correct Option</label>
+                    <select id="correct_option_1" name="correct_option" class="form-select" required>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                        <option value="4">Option 4</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-secondary mb-3" id="add-mcq">Add Another MCQ</button>
+        <button type="submit" class="btn btn-primary">Save MCQs</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('add-mcq').addEventListener('click', function() {
+        const container = document.getElementById('mcq-container');
+        const count = container.children.length + 1;
+        const newMcq = document.createElement('div');
+        newMcq.classList.add('mcq', 'mb-4', 'p-3', 'border', 'rounded');
+        newMcq.innerHTML = `
+            <h4>MCQ ${count}</h4>
+            <div class="mb-3">
+                <label for="question_${count}" class="form-label">Question</label>
+                <input type="text" id="question_${count}" name="question" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="option1_${count}" class="form-label">Option 1</label>
+                <input type="text" id="option1_${count}" name="option_1" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="option2_${count}" class="form-label">Option 2</label>
+                <input type="text" id="option2_${count}" name="option_2" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="option3_${count}" class="form-label">Option 3</label>
+                <input type="text" id="option3_${count}" name="option_3" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="option4_${count}" class="form-label">Option 4</label>
+                <input type="text" id="option4_${count}" name="option_4" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="correct_option_${count}" class="form-label">Correct Option</label>
+                <select id="correct_option_${count}" name="correct_option" class="form-select" required>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                    <option value="4">Option 4</option>
+                </select>
+            </div>
+        `;
+        container.appendChild(newMcq);
+    });
+</script>
+
+{% endblock %}

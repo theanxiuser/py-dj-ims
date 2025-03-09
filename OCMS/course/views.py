@@ -1,10 +1,48 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-
-from course.models import Course
+from django.views import View
+from .models import Course, MCQ
 from .forms import CourseCreationForm
-from .mixin import InstructorRequiredMixin
+from .mixin import InstructorRequiredMixin, StudentRequiredMixin
+
+
+class SolveMCQView(StudentRequiredMixin, View):
+    def get(self, request, course_id):
+        course = get_object_or_404(Course, pk=course_id)
+        mcqs = course.mcqs.all()
+        return render (request, "course/solve-mcq.html", {"course": course, "mcqs": mcqs})
+
+
+class MCQCreateView(InstructorRequiredMixin, View):
+    def get(self, request, course_id):
+        course = get_object_or_404(Course, pk=course_id)
+        return render(request, "course/create-mcq.html", {"course": course})
+
+    def post(self, request, course_id):
+        course = get_object_or_404(Course, pk=course_id)
+        # print(request.POST)
+
+        # Receiving the data from the form
+        questions = request.POST.getlist("question")
+        options_1 = request.POST.getlist("option_1")
+        options_2 = request.POST.getlist("option_2")
+        options_3 = request.POST.getlist("option_3")
+        options_4 = request.POST.getlist("option_4")
+        correct_options = request.POST.getlist("correct_option")
+
+        # Saving the data to the database
+        for i in range(len(questions)):
+            MCQ.objects.create(
+                course=course,
+                question=questions[i],
+                option_1=options_1[i],
+                option_2=options_2[i],
+                option_3=options_3[i],
+                option_4=options_4[i],
+                correct_option=correct_options[i]
+            )
+        return redirect("course:course-detail", pk=course_id)
 
 
 class CourseListView(LoginRequiredMixin, ListView):

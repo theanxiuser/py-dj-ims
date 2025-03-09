@@ -4,25 +4,38 @@
     {{ course.title }}
 {% endblock %}
 
-
 {% block content %}
 
-<div>
+<div class="d-flex justify-content-between align-items-center mb-4">
     <h1>{{ course.title }}</h1>
-    <p>{{ course.description }}</p>
+    {% if user.is_authenticated and user.is_instructor %}
+        <a href="{% url 'course:mcq-create' course.pk %}" class="btn btn-secondary">Add MCQ</a>
+    {% else %}
+        <a href="{% url 'course:mcq-solve' course.pk %}" class="btn btn-secondary">Solve MCQ</a>
+    {% endif %}
 </div>
 
-    <p>Instructor: {{ course.instructor.username }}</p>
+<div class="card p-4">
+    <p><strong>Description:</strong> {{ course.description }}</p>
+    <p><strong>Instructor:</strong> {{ course.instructor.username }}</p>
+</div>
 
 {% if user.is_authenticated and user.is_instructor %}
-    <p>Students:
-        {% for student in course.students.all %}
-            {{ student.username }},
-        {% endfor %}
-    </p>
+    <div class="card mt-4 p-4">
+        <h5>Students:</h5>
+        <ul class="list-group list-group-flush">
+            {% for student in course.students.all %}
+                <li class="list-group-item">{{ student.username }}</li>
+            {% empty %}
+                <li class="list-group-item">No students enrolled yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
 
-    <a href="{% url 'course:course-update' course.pk %}" class="btn btn-primary">Update</a>
-    <a href="{% url 'course:course-delete' course.pk %}" class="btn btn-danger">Delete</a>
+    <div class="d-flex gap-2 mt-4">
+        <a href="{% url 'course:course-update' course.pk %}" class="btn btn-primary">Update</a>
+        <a href="{% url 'course:course-delete' course.pk %}" class="btn btn-danger">Delete</a>
+    </div>
 {% endif %}
 
 {% endblock %}
