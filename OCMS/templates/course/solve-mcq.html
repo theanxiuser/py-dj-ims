@@ -15,22 +15,22 @@
                 <p><strong>Question {{ forloop.counter }}:</strong> {{ mcq.question }}</p>
 
                 <div class="form-check">
-                    <input type="radio" id="option_{{ mcq.id }}_1" name="mcq_{{ mcq.id }}" value="1" class="form-check-input">
+                    <input type="radio" id="option_{{ mcq.id }}_1" name="{{ mcq.id }}" value="1" class="form-check-input">
                     <label for="option_{{ mcq.id }}_1" class="form-check-label">{{ mcq.option_1 }}</label>
                 </div>
 
                 <div class="form-check">
-                    <input type="radio" id="option_{{ mcq.id }}_2" name="mcq_{{ mcq.id }}" value="2" class="form-check-input">
+                    <input type="radio" id="option_{{ mcq.id }}_2" name="{{ mcq.id }}" value="2" class="form-check-input">
                     <label for="option_{{ mcq.id }}_2" class="form-check-label">{{ mcq.option_2 }}</label>
                 </div>
 
                 <div class="form-check">
-                    <input type="radio" id="option_{{ mcq.id }}_3" name="mcq_{{ mcq.id }}" value="3" class="form-check-input">
+                    <input type="radio" id="option_{{ mcq.id }}_3" name="{{ mcq.id }}" value="3" class="form-check-input">
                     <label for="option_{{ mcq.id }}_3" class="form-check-label">{{ mcq.option_3 }}</label>
                 </div>
 
                 <div class="form-check">
-                    <input type="radio" id="option_{{ mcq.id }}_4" name="mcq_{{ mcq.id }}" value="4" class="form-check-input">
+                    <input type="radio" id="option_{{ mcq.id }}_4" name="{{ mcq.id }}" value="4" class="form-check-input">
                     <label for="option_{{ mcq.id }}_4" class="form-check-label">{{ mcq.option_4 }}</label>
                 </div>
             </div>

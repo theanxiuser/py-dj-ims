@@ -32,6 +32,19 @@
         </ul>
     </div>
 
+    <div class="card mt-4 p-4">
+        <h5>MCQs:</h5>
+        <ul class="list-group list-group-flush">
+            {% for mcq in course.mcqs.all %}
+                <li class="list-group-item">{{ forloop.counter }}. {{ mcq }}</li>
+                <li class="list-group-item">Options: [{{ mcq.option_1 }}, {{ mcq.option_2 }}, {{ mcq.option_3 }}, {{ mcq.option_4 }}]</li>
+                <li class="list-group-item">Correct Option: {{ mcq.correct_option }}</li>
+            {% empty %}
+                <li class="list-group-item">No mcqs found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
     <div class="d-flex gap-2 mt-4">
         <a href="{% url 'course:course-update' course.pk %}" class="btn btn-primary">Update</a>
         <a href="{% url 'course:course-delete' course.pk %}" class="btn btn-danger">Delete</a>

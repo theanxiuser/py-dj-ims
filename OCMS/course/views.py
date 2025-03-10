@@ -1,8 +1,9 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.views import View
-from .models import Course, MCQ
+from .models import Course, MCQ, Response
 from .forms import CourseCreationForm
 from .mixin import InstructorRequiredMixin, StudentRequiredMixin
 
@@ -12,6 +13,20 @@ class SolveMCQView(StudentRequiredMixin, View):
         course = get_object_or_404(Course, pk=course_id)
         mcqs = course.mcqs.all()
         return render (request, "course/solve-mcq.html", {"course": course, "mcqs": mcqs})
+
+    def post(self, request, course_id):
+        correct_mcqs = 0
+        student = request.user
+        for key, value in request.POST.items():
+            if key == "csrfmiddlewaretoken":
+                continue
+            mcq = MCQ.objects.get(id=key)
+            res = Response.objects.create(mcq=mcq, student=student, selected_option=int(value))
+            if res.is_correct:
+                correct_mcqs += 1
+
+        messages.info(request, f"{correct_mcqs} MCQs are correct.")
+        return redirect("course:course-detail", pk=course_id)
 
 
 class MCQCreateView(InstructorRequiredMixin, View):
@@ -42,6 +57,7 @@ class MCQCreateView(InstructorRequiredMixin, View):
                 option_4=options_4[i],
                 correct_option=correct_options[i]
             )
+        messages.success(request, "MCQ added successfully.")
         return redirect("course:course-detail", pk=course_id)
 
 
