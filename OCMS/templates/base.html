@@ -27,7 +27,7 @@
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Profile</a>
+                            <a class="nav-link" href="{% url 'userauth:profile' %}">Profile</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'userauth:logout' %}">Logout</a>
@@ -45,20 +45,37 @@
         </div>
     </nav>
 
-    <!-- Flash Messages -->
-    <div class="container mt-3">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-    </div>
+<!-- Flash Messages -->
+<div class="container mt-3">
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.DEBUG %}
+                <div class="alert alert-secondary">{{ message }}</div>
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                <div class="alert alert-warning">{{ message }}</div>
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% else %}
+                <div class="alert alert-primary">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>
+
 
     <!-- Main Content -->
-    <div class="container mt-4">
+    <div class="container mt-4" style="min-height: 70vh;">
         {% block content %}
         {% endblock %}
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2025 OCMS. All Rights Reserved.</p>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

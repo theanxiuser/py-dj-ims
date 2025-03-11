@@ -1,7 +1,19 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
-from userauth.models import ROLE_CHOICES, CustomUser
+from userauth.models import ROLE_CHOICES, CustomUser, Profile
+
+
+class ProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ["bio", "phone", "image"]
+        widgets = {
+            "bio": forms.Textarea(attrs={"class": "form-control"}),
+            "phone": forms.TextInput(attrs={"class": "form-control"}),
+            "image": forms.FileInput(attrs={"class": "form-control"}),
+        }
 
 
 class UserRegistrationForm(UserCreationForm):

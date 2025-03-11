@@ -32,18 +32,38 @@
         </ul>
     </div>
 
-    <div class="card mt-4 p-4">
-        <h5>MCQs:</h5>
-        <ul class="list-group list-group-flush">
-            {% for mcq in course.mcqs.all %}
-                <li class="list-group-item">{{ forloop.counter }}. {{ mcq }}</li>
-                <li class="list-group-item">Options: [{{ mcq.option_1 }}, {{ mcq.option_2 }}, {{ mcq.option_3 }}, {{ mcq.option_4 }}]</li>
-                <li class="list-group-item">Correct Option: {{ mcq.correct_option }}</li>
-            {% empty %}
-                <li class="list-group-item">No mcqs found.</li>
-            {% endfor %}
-        </ul>
+  <div class="card mt-4 shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Multiple-Choice Questions (MCQs)</h5>
     </div>
+    <div class="card-body">
+        {% if course.mcqs.all %}
+            {% for mcq in course.mcqs.all %}
+                <div class=" rounded p-3 mb-3">
+                    <p class="fw-bold">{{ forloop.counter }}. {{ mcq.question }}</p>
+                    <ul class="list-group">
+                        <li class="list-group-item {% if mcq.correct_option == 1 %}bg-success text-white{% endif %}">
+                            A) {{ mcq.option_1 }}
+                        </li>
+                        <li class="list-group-item {% if mcq.correct_option == 2 %}bg-success text-white{% endif %}">
+                            B) {{ mcq.option_2 }}
+                        </li>
+                        <li class="list-group-item {% if mcq.correct_option == 3 %}bg-success text-white{% endif %}">
+                            C) {{ mcq.option_3 }}
+                        </li>
+                        <li class="list-group-item {% if mcq.correct_option == 4 %}bg-success text-white{% endif %}">
+                            D) {{ mcq.option_4 }}
+                        </li>
+                    </ul>
+                </div>
+                <hr>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No MCQs available for this course yet.</p>
+        {% endif %}
+    </div>
+</div>
+
 
     <div class="d-flex gap-2 mt-4">
         <a href="{% url 'course:course-update' course.pk %}" class="btn btn-primary">Update</a>
