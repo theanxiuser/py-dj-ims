@@ -6,6 +6,7 @@ from django.views import View
 from .models import Course, MCQ, Response
 from .forms import CourseCreationForm
 from .mixin import InstructorRequiredMixin, StudentRequiredMixin
+from .service import send_result_mail
 
 
 class SolveMCQView(StudentRequiredMixin, View):
@@ -25,6 +26,15 @@ class SolveMCQView(StudentRequiredMixin, View):
             if res.is_correct:
                 correct_mcqs += 1
 
+        status = send_result_mail(data={
+            "student": student,
+            "course": Course.objects.get(pk=course_id),
+            "marks": correct_mcqs
+        })
+        if status:
+            messages.success(request, "Mail sent successfully.")
+        else:
+            messages.error(request, "Mail sending failed.")
         messages.info(request, f"{correct_mcqs} MCQs are correct.")
         return redirect("course:course-detail", pk=course_id)
 
